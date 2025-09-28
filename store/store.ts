@@ -1,15 +1,43 @@
 import { create } from 'zustand';
 
-export interface BearState {
-  bears: number;
-  increasePopulation: () => void;
-  removeAllBears: () => void;
-  updateBears: (newBears: number) => void;
+import { List, Task } from '@/types';
+
+export interface ListsState {
+  lists: List[];
+  currentList: List | undefined;
+  setLists: (lists: List[]) => void;
+  setCurrentList: (list: List) => void;
 }
 
-export const useStore = create<BearState>((set) => ({
-  bears: 0,
-  increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
-  removeAllBears: () => set({ bears: 0 }),
-  updateBears: (newBears) => set({ bears: newBears }),
+export interface TasksState {
+  tasks: Task[];
+  currentTask: Task | undefined;
+  setTasks: (tasks: Task[]) => void;
+  setCurrentTask: (task: Task) => void;
+}
+
+interface LoadingState {
+  isLoading: boolean;
+  showLoading: () => void;
+  hideLoading: () => void;
+}
+
+export const useListsStore = create<ListsState>((set) => ({
+  lists: [],
+  currentList: undefined,
+  setLists: (lists) => set({ lists }),
+  setCurrentList: (list) => set({ currentList: list }),
+}));
+
+export const useTasksStore = create<TasksState>((set) => ({
+  tasks: [],
+  currentTask: undefined,
+  setTasks: (tasks) => set({ tasks }),
+  setCurrentTask: (task) => set({ currentTask: task }),
+}));
+
+export const useLoadingStore = create<LoadingState>((set) => ({
+  isLoading: false,
+  showLoading: () => set({ isLoading: true }),
+  hideLoading: () => set({ isLoading: false }),
 }));
